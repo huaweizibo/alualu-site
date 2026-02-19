@@ -1,0 +1,780 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>ALu ALu（アルアル）｜錦糸町・やさしい余韻のあるお店</title>
+
+  <style>
+    :root{
+      /* 清新日式 + 微醺暧昧（更暧昧一点） */
+      --bg:#fbfaf7;        /* 奶油白底 */
+      --paper:#ffffff;
+      --ink:#1f2937;
+      --muted:#6b7280;
+      --line:#e9e7e2;
+
+      --matcha:#4b6b4b;    /* 抹茶 */
+      --gold:#c9a24a;      /* 金茶 */
+      --blush:#e7b6b2;     /* 樱粉（暧昧关键） */
+      --warm:#f3e6d6;      /* 奶油暖 */
+      --wine:#7a3f3f;      /* 微醺酒红（点到为止） */
+
+      --shadow: 0 14px 40px rgba(17,24,39,.10);
+      --shadow2: 0 10px 26px rgba(17,24,39,.08);
+      --radius:18px;
+      --max:1100px;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      color: var(--ink);
+      font-family: ui-serif, "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP",
+                   "Noto Sans JP", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+
+      /* ✅ 背景更暧昧：樱粉柔光 + 金茶光晕 + 细闪点点（不夸张） */
+      background:
+        radial-gradient(980px 360px at 18% 0%, rgba(231,182,178,.30), transparent 62%),
+        radial-gradient(860px 320px at 88% 8%, rgba(201,162,74,.16), transparent 65%),
+        radial-gradient(980px 380px at 55% 100%, rgba(75,107,75,.10), transparent 68%),
+        linear-gradient(180deg, rgba(255,255,255,.0), rgba(243,230,214,.30)),
+        var(--bg);
+      overflow-x:hidden;
+    }
+
+    /* 背景“微闪”点点（很轻，不俗） */
+    body::before{
+      content:"";
+      position:fixed;
+      inset:-40px;
+      pointer-events:none;
+      background:
+        radial-gradient(circle at 12% 22%, rgba(201,162,74,.20) 0 1px, transparent 2px),
+        radial-gradient(circle at 28% 14%, rgba(231,182,178,.22) 0 1px, transparent 2px),
+        radial-gradient(circle at 62% 18%, rgba(201,162,74,.16) 0 1px, transparent 2px),
+        radial-gradient(circle at 78% 26%, rgba(231,182,178,.18) 0 1px, transparent 2px),
+        radial-gradient(circle at 42% 44%, rgba(201,162,74,.12) 0 1px, transparent 2px),
+        radial-gradient(circle at 88% 62%, rgba(231,182,178,.16) 0 1px, transparent 2px);
+      opacity:.55;
+      filter: blur(.1px);
+      z-index:-1;
+    }
+
+    a{ color: inherit; text-decoration: none; }
+    .container{ max-width: var(--max); margin: 0 auto; padding: 0 20px; }
+
+    /* Header */
+    header{
+      position: sticky; top: 0; z-index: 60;
+      background: rgba(251,250,247,.86);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav{
+      display:flex; align-items:center; justify-content:space-between;
+      padding: 14px 0;
+      gap: 14px;
+    }
+    .brand{ display:flex; align-items:center; gap: 12px; min-width: 240px; }
+    .mark{
+      width: 12px; height: 12px; border-radius: 999px;
+      background: linear-gradient(135deg, rgba(231,182,178,.98), rgba(201,162,74,.68), rgba(75,107,75,.55));
+      box-shadow: 0 0 0 7px rgba(231,182,178,.12);
+    }
+    .brandTitle{ display:flex; flex-direction:column; line-height:1.1; }
+    .brandTitle strong{ font-size: 14px; letter-spacing:.4px; }
+    .brandTitle span{
+      font-size: 12px; color: var(--muted);
+      font-family: "Noto Sans JP", system-ui;
+    }
+
+    .links{
+      display:flex; gap: 10px; flex-wrap: wrap;
+      font-family: "Noto Sans JP", system-ui;
+      color: var(--muted);
+      font-size: 13px;
+      justify-content:center;
+    }
+    .links a{
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      transition: background .12s ease, border-color .12s ease;
+    }
+    .links a:hover{
+      border-color: var(--line);
+      background: rgba(255,255,255,.78);
+    }
+
+    .actions{
+      display:flex; gap: 10px; align-items:center;
+      font-family: "Noto Sans JP", system-ui;
+      min-width: 220px;
+      justify-content:flex-end;
+    }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.86);
+      color: var(--ink);
+      font-weight: 700;
+      font-size: 13px;
+      box-shadow: 0 6px 16px rgba(17,24,39,.06);
+      transition: transform .12s ease, background .12s ease;
+      user-select:none;
+    }
+    .btn:hover{ background: #fff; transform: translateY(-1px); }
+    .btn.primary{
+      border-color: rgba(231,182,178,.50);
+      background: linear-gradient(135deg, rgba(231,182,178,.32), rgba(201,162,74,.16));
+      color: #5b3b3a;
+    }
+
+    /* Mobile hamburger */
+    .hamburger{
+      display:none;
+      width: 42px; height: 40px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.86);
+      box-shadow: 0 6px 16px rgba(17,24,39,.06);
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      user-select:none;
+    }
+    .hamburger span{
+      width: 18px; height: 2px; background: rgba(31,41,55,.8);
+      border-radius: 999px;
+      position:relative;
+      display:block;
+    }
+    .hamburger span::before,.hamburger span::after{
+      content:"";
+      position:absolute; left:0; width:18px; height:2px;
+      background: rgba(31,41,55,.8);
+      border-radius:999px;
+    }
+    .hamburger span::before{ top:-6px; }
+    .hamburger span::after{ top:6px; }
+
+    .mobileMenu{
+      display:none;
+      padding: 10px 0 14px;
+      border-top: 1px solid var(--line);
+    }
+    .mobileMenu .links{ justify-content:flex-start; }
+    .mobileMenu .links a{ background: rgba(255,255,255,.65); border-color: rgba(233,231,226,.65); }
+
+    /* Hero */
+    .hero{ padding: 34px 0 14px; }
+    .heroGrid{
+      display:grid;
+      grid-template-columns: 1.12fr .88fr;
+      gap: 16px;
+      align-items:stretch;
+    }
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,255,255,.88));
+      border: 1px solid rgba(233,231,226,.95);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px;
+    }
+    .kicker{
+      display:inline-flex; align-items:center; gap: 10px;
+      font-family: "Noto Sans JP", system-ui;
+      font-size: 12px;
+      color: rgba(107,114,128,.95);
+      border: 1px solid rgba(233,231,226,.95);
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(231,182,178,.22), rgba(201,162,74,.10));
+    }
+    h1{
+      margin: 14px 0 8px;
+      font-size: 32px;
+      letter-spacing: .6px;
+    }
+    h1::after{
+      content:"";
+      display:block;
+      width: 82px;
+      height: 2px;
+      margin-top: 10px;
+      background: linear-gradient(90deg, rgba(231,182,178,.85), rgba(201,162,74,.70), rgba(75,107,75,.55));
+      border-radius: 999px;
+      opacity: .95;
+    }
+    .subtitle{
+      margin: 10px 0 0;
+      color: var(--wine);
+      font-family:"Noto Sans JP", system-ui;
+      font-size: 13px;
+    }
+    .lead{
+      margin: 10px 0 0;
+      color: var(--muted);
+      line-height: 1.9;
+      font-size: 14px;
+      font-family: "Noto Sans JP", system-ui;
+      max-width: 62ch;
+    }
+    .chips{ display:flex; flex-wrap:wrap; gap: 10px; margin-top: 14px; }
+    .chip{
+      font-family: "Noto Sans JP", system-ui;
+      font-size: 13px;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      background: rgba(251,250,247,.75);
+      padding: 8px 10px;
+      border-radius: 12px;
+    }
+    .divider{ height: 1px; background: var(--line); margin: 16px 0; }
+
+    .noteBox{
+      border: 1px dashed rgba(231,182,178,.60);
+      background: linear-gradient(180deg, rgba(231,182,178,.14), rgba(243,230,214,.26));
+      border-radius: 16px;
+      padding: 14px;
+      font-family: "Noto Sans JP", system-ui;
+      color: rgba(31,41,55,.92);
+      line-height: 1.75;
+      font-size: 13px;
+    }
+    .noteBox strong{ color: var(--wine); }
+
+    /* Sections */
+    section{ padding: 14px 0 18px; }
+    .grid2{ display:grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    h2{ margin:0 0 10px; font-size:18px; letter-spacing:.2px; }
+    p,li{
+      margin:0;
+      color: var(--muted);
+      font-family: "Noto Sans JP", system-ui;
+      font-size:14px;
+      line-height:1.9;
+    }
+    ul{ margin: 10px 0 0; padding-left: 18px; }
+
+    .table{
+      width: 100%;
+      border-collapse: collapse;
+      font-family: "Noto Sans JP", system-ui;
+      margin-top: 8px;
+      font-size: 14px;
+    }
+    .table th, .table td{
+      padding: 12px 10px;
+      border-top: 1px solid var(--line);
+      vertical-align: top;
+    }
+    .table th{ width: 34%; color: var(--ink); font-weight: 800; }
+    .table td{ color: var(--muted); }
+
+    .small{
+      margin-top: 10px;
+      font-size: 12px;
+      color: rgba(107,114,128,.92);
+      font-family: "Noto Sans JP", system-ui;
+    }
+
+    /* Photos: desktop grid, mobile horizontal scroll */
+    .photoHeader{
+      display:flex; align-items:flex-end; justify-content:space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .tagline{
+      font-family:"Noto Sans JP", system-ui;
+      font-size: 13px;
+      color: rgba(122,63,63,.92);
+    }
+
+    .gallery{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .photoCard{
+      border-radius: var(--radius);
+      border: 1px solid rgba(233,231,226,.95);
+      background: rgba(255,255,255,.88);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+      position:relative;
+    }
+    .photoCard img{
+      width:100%;
+      height: 360px;
+      object-fit: cover;
+      display:block;
+      filter: saturate(1.05) contrast(1.03);
+      transform: scale(1.001);
+    }
+    .softGlow{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      background:
+        radial-gradient(520px 240px at 30% 0%, rgba(231,182,178,.22), transparent 60%),
+        radial-gradient(540px 260px at 82% 18%, rgba(201,162,74,.12), transparent 62%),
+        linear-gradient(180deg, transparent, rgba(0,0,0,.04));
+      mix-blend-mode: soft-light;
+    }
+    .photoCap{
+      padding: 12px 14px 14px;
+      font-family:"Noto Sans JP", system-ui;
+    }
+    .photoCap .title{
+      font-weight: 800;
+      color: rgba(31,41,55,.92);
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+    .photoCap .desc{
+      color: rgba(107,114,128,.95);
+      font-size: 13px;
+      line-height:1.75;
+    }
+
+    /* Footer */
+    .footer{
+      border-top: 1px solid var(--line);
+      padding: 24px 0 80px; /* 给底部浮动条留空间 */
+      color: rgba(107,114,128,.9);
+      font-family: "Noto Sans JP", system-ui;
+      font-size: 12px;
+    }
+
+    /* Mobile bottom bar */
+    .mobileBar{
+      display:none;
+      position:fixed;
+      left: 14px; right: 14px; bottom: 14px;
+      z-index: 80;
+      background: rgba(255,255,255,.86);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(233,231,226,.95);
+      border-radius: 16px;
+      box-shadow: 0 16px 44px rgba(17,24,39,.16);
+      overflow:hidden;
+    }
+    .mobileBarInner{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .mobileBar a{
+      padding: 14px 10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap: 8px;
+      font-family:"Noto Sans JP", system-ui;
+      font-weight: 800;
+      font-size: 14px;
+      color: rgba(31,41,55,.92);
+    }
+    .mobileBar a:first-child{
+      border-right: 1px solid rgba(233,231,226,.95);
+    }
+    .mobileBar a.primary{
+      background: linear-gradient(135deg, rgba(231,182,178,.28), rgba(201,162,74,.14));
+      color: #5b3b3a;
+    }
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .heroGrid{ grid-template-columns: 1fr; }
+      .grid2{ grid-template-columns: 1fr; }
+
+      /* 顶部：隐藏PC按钮，显示汉堡 */
+      .actions{ display:none; }
+      .hamburger{ display:flex; }
+      .links.desktop{ display:none; }
+
+      /* 图片：手机横向滑动（更高级） */
+      .gallery{
+        display:flex;
+        gap: 12px;
+        overflow-x:auto;
+        padding-bottom: 6px;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+      }
+      .gallery::-webkit-scrollbar{ height: 8px; }
+      .gallery::-webkit-scrollbar-thumb{ background: rgba(233,231,226,.95); border-radius:999px; }
+      .photoCard{
+        min-width: 84%;
+        scroll-snap-align: start;
+      }
+      .photoCard img{ height: 320px; }
+
+      h1{ font-size: 28px; }
+
+      /* 手机底部浮动条 */
+      .mobileBar{ display:block; }
+      .footer{ padding-bottom: 110px; }
+    }
+
+    @media (max-width: 420px){
+      .photoCard{ min-width: 92%; }
+      h1{ font-size: 26px; }
+      .btn{ padding: 10px 10px; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="container">
+    <div class="nav">
+      <div class="brand">
+        <span class="mark"></span>
+        <div class="brandTitle">
+          <strong>ALu ALu（アルアル）</strong>
+          <span>錦糸町｜やさしい余韻のある時間</span>
+        </div>
+      </div>
+
+      <!-- Desktop nav -->
+      <nav class="links desktop">
+        <a href="#about">お店について</a>
+        <a href="#photos">写真</a>
+        <a href="#system">料金</a>
+        <a href="#menu">フード</a>
+        <a href="#access">アクセス</a>
+        <a href="#contact">お問い合わせ</a>
+      </nav>
+
+      <div class="actions">
+        <a class="btn" href="tel:03-6666-9668">電話する</a>
+        <a class="btn primary" href="#contact">予約相談</a>
+      </div>
+
+      <!-- Mobile hamburger -->
+      <div class="hamburger" id="hamburger" aria-label="menu" role="button" tabindex="0">
+        <span></span>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div class="mobileMenu" id="mobileMenu">
+      <nav class="links">
+        <a href="#about">お店について</a>
+        <a href="#photos">写真</a>
+        <a href="#system">料金</a>
+        <a href="#menu">フード</a>
+        <a href="#access">アクセス</a>
+        <a href="#contact">お問い合わせ</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <div class="container hero">
+    <div class="heroGrid">
+      <div class="card">
+        <div class="kicker">錦糸町駅から徒歩2分｜会話とカラオケ、やさしく夜更かし</div>
+        <h1>少しだけ、寄り道しませんか。</h1>
+        <p class="subtitle">いつもの夜に、少しだけ “ときめき” を。</p>
+
+        <p class="lead">
+          ALu ALu（アルアル）は、肩の力を抜いて過ごせる、落ち着いた雰囲気のお店です。
+          会話とカラオケを、ほどよい距離感で。おひとり様も、グループ様も歓迎します。
+        </p>
+
+        <div class="chips">
+          <div class="chip">営業時間：20:00〜1:00</div>
+          <div class="chip">定休日：日曜・月曜の祝日</div>
+          <div class="chip">カードOK（手数料10%）</div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="noteBox">
+          <strong>はじめての方へ：</strong>「ページを見た」とそっとお伝えください。<br/>
+          <strong>飲み放題60分 3,000円</strong>のご案内が可能な場合があります。<br/>
+          <span style="color:rgba(107,114,128,.95);">※条件・内容は当日スタッフにご確認ください</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>本日のご案内（目安）</h2>
+        <p style="margin-bottom:10px;">
+          料金はわかりやすく、安心して楽しめる仕組みです。<br/>
+          カラオケも気軽にご利用いただけます。
+        </p>
+
+        <table class="table">
+          <tr>
+            <th>飲み放題（60分）</th>
+            <td>4,000円（ハウス焼酎・ウイスキー等／乾き物付）</td>
+          </tr>
+          <tr>
+            <th>ボトルキープ（60分）</th>
+            <td>セット 4,000円（割りもの・乾き物付）</td>
+          </tr>
+          <tr>
+            <th>カラオケ</th>
+            <td>1曲200円 ／ 1,000円で歌い放題</td>
+          </tr>
+        </table>
+
+        <div class="small">
+          ※別途消費税。最新の内容は店舗でご確認ください。
+        </div>
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; font-family:'Noto Sans JP',system-ui;">
+          <a class="btn primary" href="#contact">席だけ相談</a>
+          <a class="btn" href="#photos">雰囲気を見る</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container grid2">
+      <div class="card">
+        <h2>お店について</h2>
+        <p>
+          新規オープンとして紹介されているお店です。落ち着いた会話を中心に、
+          お仕事帰りにふらっと立ち寄れる雰囲気を目指しています。
+        </p>
+        <ul>
+          <li>おひとり様歓迎／はじめての方も安心</li>
+          <li>会話＋カラオケでゆったり</li>
+          <li>団体様・貸切（10名〜）も相談可</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>席・雰囲気</h2>
+        <p>
+          カウンター席とテーブル席をご用意。少人数でも居心地よく、
+          グループでも楽しめます。
+        </p>
+        <ul>
+          <li>カウンター席・テーブル席（合計25席＋補助席）</li>
+          <li>錦糸町駅 南口 徒歩2分（目安）</li>
+          <li>お支払い：カード対応（手数料あり）</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHOTOS -->
+  <section id="photos">
+    <div class="container">
+      <div class="photoHeader">
+        <div>
+          <h2 style="margin-bottom:6px;">写真</h2>
+          <p class="tagline">やわらかな灯りと、ほどよい距離感。</p>
+        </div>
+        <div class="small" style="margin:0;">
+          ※写真はイメージ・雰囲気紹介（スマホは横にスワイプできます）
+        </div>
+      </div>
+
+      <div class="gallery">
+        <div class="photoCard">
+          <img src="1.png" alt="ALu ALu 1" />
+          <div class="softGlow"></div>
+          <div class="photoCap">
+            <div class="title">やさしい夜に、乾杯。</div>
+            <div class="desc">初めてでも緊張しない空気感。ゆっくり会話を楽しめます。</div>
+          </div>
+        </div>
+
+        <div class="photoCard">
+          <img src="2.png" alt="ALu ALu 2" />
+          <div class="softGlow"></div>
+          <div class="photoCap">
+            <div class="title">みんなで、ほどよく賑やかに。</div>
+            <div class="desc">グループ利用や貸切も相談OK。カラオケも気軽に。</div>
+          </div>
+        </div>
+        <div class="photoCard">
+          <img src="3.png" alt="ALu ALu 2" />
+          <div class="softGlow"></div>
+          <div class="photoCap">
+            <div class="title">みんなで、ほどよく賑やかに。</div>
+            <div class="desc">グループ利用や貸切も相談OK。カラオケも気軽に。</div>
+          </div>
+        </div>
+        <div class="photoCard">
+          <img src="4.png" alt="ALu ALu 2" />
+          <div class="softGlow"></div>
+          <div class="photoCap">
+            <div class="title">みんなで、ほどよく賑やかに。</div>
+            <div class="desc">グループ利用や貸切も相談OK。カラオケも気軽に。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SYSTEM -->
+  <section id="system">
+    <div class="container">
+      <div class="card">
+        <h2>料金システム</h2>
+        <p>わかりやすい2つのプラン。カラオケ料金も明確です。</p>
+
+        <table class="table">
+          <tr>
+            <th>① 飲み放題（60分）</th>
+            <td>4,000円（ハウス焼酎・ウイスキー／割りもの・乾き物付）</td>
+          </tr>
+          <tr>
+            <th>② ボトルキープ（60分）</th>
+            <td>セット 4,000円（割りもの・乾き物付）</td>
+          </tr>
+          <tr>
+            <th>カラオケ</th>
+            <td>1曲200円 ／ 1,000円で歌い放題</td>
+          </tr>
+          <tr>
+            <th>お支払い</th>
+            <td>各種カードOK（手数料10%）／※別途消費税</td>
+          </tr>
+        </table>
+
+        <div class="small">
+          ※上記は掲載情報に基づく目安です。最新の内容は店舗でご確認ください。
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MENU -->
+  <section id="menu">
+    <div class="container grid2">
+      <div class="card">
+        <h2>フード（例）</h2>
+        <ul>
+          <li>チーズ：1,000円（出前相談可）</li>
+          <li>枝豆：1,000円</li>
+          <li>フルーツ盛合せ：3,000円〜</li>
+        </ul>
+        <div class="small">※内容は日によって変わる場合があります。</div>
+      </div>
+
+      <div class="card">
+        <h2>団体・貸切</h2>
+        <p>
+          団体様のご利用も歓迎します。貸切は10名〜ご相談ください。
+          事前予約で定休日営業が可能な場合もあります。
+        </p>
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; font-family:'Noto Sans JP',system-ui;">
+          <a class="btn primary" href="#contact">団体予約を相談</a>
+          <a class="btn" href="tel:03-6666-9668">電話で問い合わせ</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACCESS -->
+  <section id="access">
+    <div class="container">
+      <div class="card">
+        <h2>アクセス</h2>
+        <table class="table">
+          <tr>
+            <th>住所</th>
+            <td>〒130-0022 東京都墨田区江東橋3丁目10-10 YKビル6F</td>
+          </tr>
+          <tr>
+            <th>最寄り</th>
+            <td>
+              JR総武線 錦糸町駅 南口 徒歩2分（目安）<br/>
+              東京メトロ半蔵門線 錦糸町駅 1番出口 徒歩3分（目安）
+            </td>
+          </tr>
+          <tr>
+            <th>営業時間</th>
+            <td>20:00〜1:00</td>
+          </tr>
+          <tr>
+            <th>定休日</th>
+            <td>日曜・月曜の祝日</td>
+          </tr>
+        </table>
+
+        <!-- 地図が必要なら解除注释
+        <div style="margin-top:14px; border:1px solid var(--line); border-radius:16px; overflow:hidden;">
+          <iframe
+            src="https://www.google.com/maps?q=東京都墨田区江東橋3丁目10-10%20YKビル6F&output=embed"
+            width="100%" height="320" style="border:0" loading="lazy"></iframe>
+        </div>
+        -->
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container">
+      <div class="card">
+        <h2>お問い合わせ・ご予約</h2>
+        <p>
+          ご予約・ご質問はお電話でお気軽にどうぞ。<br/>
+          「はじめてです」と一言いただければ、ゆっくりご案内します。
+        </p>
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; font-family:'Noto Sans JP',system-ui;">
+          <a class="btn primary" href="tel:03-6666-9668">電話：03-6666-9668</a>
+          <a class="btn" href="#system">料金を確認</a>
+          <a class="btn" href="#photos">写真を見る</a>
+        </div>
+
+        <div class="small">
+          ※掲載情報は参考です。最新の営業情報・料金は店舗でご確認ください。
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container footer">
+    <div>© ALu ALu / Japanese Elegant + Gentle Flirty Template</div>
+  </div>
+</main>
+
+<!-- Mobile Bottom Bar -->
+<div class="mobileBar" aria-label="mobile actions">
+  <div class="mobileBarInner">
+    <a href="tel:03-6666-9668">📞 電話する</a>
+    <a class="primary" href="#contact">💬 予約相談</a>
+  </div>
+</div>
+
+<script>
+  // Mobile menu toggle
+  const hb = document.getElementById('hamburger');
+  const mm = document.getElementById('mobileMenu');
+
+  function toggleMenu(){
+    const open = mm.style.display === 'block';
+    mm.style.display = open ? 'none' : 'block';
+  }
+  hb.addEventListener('click', toggleMenu);
+  hb.addEventListener('keydown', (e)=> {
+    if(e.key === 'Enter' || e.key === ' ') toggleMenu();
+  });
+
+  // 点击菜单项自动收起（手机体验更好）
+  mm.querySelectorAll('a').forEach(a=>{
+    a.addEventListener('click', ()=> mm.style.display = 'none');
+  });
+</script>
+
+</body>
+</html>
